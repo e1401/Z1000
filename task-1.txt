@@ -1,0 +1,27 @@
+TitaniumCore: High-Speed File Analysis Engine
+
+Overview
+TitaniumCore delivers millisecond-speed file analysis for detecting advanced threats. 
+
+Key Capabilities
+
+Advanced Analysis Engine
+TitaniumCore analyses files with millisecond response times through its optimized processing engine. The system:
+•	Processes samples at any volume scale
+•	Supports enterprise-level deployments
+•	Provides deterministic threat detection results
+
+Flexible Rules Configuration
+The threat detection system uses a dual-source rules engine:
+•	Built-in ReversingLabs rule definitions
+•	Customer-supplied YARA rules
+•	Combined scoring mechanism for precise threat level determination
+
+Automated Processing Workflow
+Files can be automatically routed based on analysis results:
+•	Route to additional analysis tools (decompilers, debuggers, sandboxes, virtual machine environments)
+•	Forward to security analysts based on threat level or file type
+•	Optimize security resource allocation through intelligent routing
+
+Comprehensive Threat Intelligence
+TitaniumCore provides detailed threat intelligence including file metadata, behavioural indicators, and structural analysis not available in single-purpose tools.

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <title>Z1000 Sample Download API Documentation</title>
+  </head>
+  <body>
+    <header>
+      <button class="menu-toggle">☰</button>
+      <h1>
+        Z1000 Sample Download API</h1>
+    </header>
+
+    <div class="container">
+      <nav id="sidebar">
+        <ul>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#authentication">Authentication</a></li>
+          <li><a href="#endpoint-details">Endpoint Details</a></li>
+            <li>
+                <a href="#query-parameters">Query Parameters</a>
+          <li>
+            <a href="#available-methods">Available Methods</a>
+            <ul>
+              <li><a href="#get-method">GET Method</a></li>
+              <li><a href="#post-method">POST Method</a></li>
+            </ul>
+          </li>
+          <li><a href="#code-examples">Code Examples</a></li>
+          <li><a href="#error-handling">Error Handling</a></li>
+        </ul>
+      </nav>
+
+      <div class="overlay" id="overlay"></div>
+
+      <main>
+        <section id="overview">
+          <h2>Overview</h2>
+          <p>
+            This document describes the
+            <code>/api/v1/download_samples/</code> endpoint which allows you to
+            retrieve samples that have been analyzed by the <a href="https://example.com/z1000" target="_blank">Z1000 system</a>, a
+            virtual machine deployed in the cloud that receives email messages,
+            and performs antivirus analysis on the attachments.
+          </p>
+        </section>
+
+        <section id="authentication">
+          <h2>Authentication</h2>
+          <p>All API requests require Basic Authentication:</p>
+          <ul>
+            <li><strong>Username</strong>: z1000_user</li>
+            <li><strong>Password</strong>: z1000_password_example_123</li>
+          </ul>
+        </section>
+
+        <section id="endpoint-details">
+          <h2>Endpoint details</h2>
+          <p>
+            <span class="endpoint">
+              https://example.com/api/v1/download_samples/</span
+            >
+            supports both <code>GET</code> and <code>POST</code> methods.
+          </p>
+        </section>
+
+        <section id="query-parameters">
+        <h2>Query Parameters</h2>
+        <p>
+          The following query parameters can be used to filter the results
+          returned by the API:
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Type</th>
+              <th>Required</th>
+              <th>Description</th>
+              <th>Example</th>
+              <th>Use with</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>date</code></td>
+              <td>string</td>
+              <td>No</td>
+              <td>Filter results by analysis date (format: YYYY-MM-DD)</td>
+              <td>2025-05-15</td>
+                <td>  <span class="method get">GET</span
+                    ></td>
+
+            </tr>
+            <tr>
+              <td><code>user_id</code></td>
+              <td>string</td>
+              <td>No</td>
+              <td>
+                Filter results by the ID of the user who uploaded the sample
+              </td>
+              <td>user_12345</td>
+                <td>  <span class="method get">GET</span
+                    ></td>
+
+            </tr>
+          </tbody>
+        </table>
+        </section>
+
+        <section id="available-methods">
+          <h2>Available methods</h2>
+
+          <section id="get-method">
+            <h3>Retrieve available samples</h3>
+            <p>Retrieves a list of all available samples for download.</p>
+
+            <p>
+              <span class="method get">GET</span
+              ><code>/api/v1/download_samples/</code>
+            </p>
+
+            <h4>Example Response</h4>
+            <pre><code>{
+                "samples": [
+                  {
+                    "sample_id": "9a72bd1b-85f9-4dc2-b5f4-c7e989738631",
+                    "filename": "invoice.pdf",
+                    "analysis_date": "2025-05-15",
+                    "user_id": "user_12345",
+                    "malicious": false,
+                    "file_size": 256789
+                  },
+                  {
+                    "sample_id": "62e14d3a-cfb2-42b6-9cb8-2ea7f5e8d1a9",
+                    "filename": "setup.exe",
+                    "analysis_date": "2025-05-15",
+                    "user_id": "user_67890",
+                    "malicious": true,
+                    "file_size": 1458962
+                  }
+                ],
+                "total_count": 2,
+                "page": 1,
+                "page_size": 100
+                }</code></pre>
+
+            </code></pre>
+
+            <h3>Retrieve available samples by date</h3>
+            <p>
+              Retrieves a list of all available samples for download, analyzed
+              on a specific date.
+            </p>
+            <p>
+              <span class="method get">GET</span
+              ><code>/api/v1/download_samples/?date={date}</code>
+            </p>
+
+            <h4>Example Response</h4>
+            <p>
+                for <span class="method get">GET</span
+                ><code>/api/v1/download_samples/?date=2025-05-15</code>
+              </p>
+            <pre><code>{
+                "samples": [
+                  {
+                    "sample_id": "9a72bd1b-85f9-4dc2-b5f4-c7e989738631",
+                    "filename": "invoice.pdf",
+                    "analysis_date": "2025-05-15",
+                    "user_id": "user_12345",
+                    "malicious": false,
+                    "file_size": 256789
+                  }
+                ],
+                "total_count": 1,
+                "page": 1,
+                "page_size": 100
+              }</code></pre>
+
+            <h3>Retrieve available samples by user ID</h3>
+            <p>
+              Retrieves a list of all available samples for download, uploaded
+              by a specific user.
+            </p>
+            <p>
+              <span class="method get">GET</span
+              ><code>/api/v1/download_samples/?user_id={user_id}</code>
+            </p>
+            <h4>Example Response</h4>
+            <p>
+                for <span class="method get">GET</span
+                ><code>/api/v1/download_samples/?user_id=user_12345</code>
+              </p>
+            <pre><code>{
+                "samples": [
+                  {
+                    "sample_id": "9a72bd1b-85f9-4dc2-b5f4-c7e989738631",
+                    "filename": "invoice.pdf",
+                    "analysis_date": "2025-05-15",
+                    "user_id": "user_12345",
+                    "malicious": false,
+                    "file_size": 256789
+                  }
+                ],
+                "total_count": 1,
+                "page": 1,
+                "page_size": 100
+              }</code></pre>
+
+          </section>
+
+          <section id="post-method">
+            <h3>
+              <span class="method post">POST</span> Generate Download Links
+            </h3>
+            <p>Generates download links for specific samples by ID.</p>
+
+            <h4>Request Body</h4>
+            <pre><code>{
+  "sample_ids": [
+    "9a72bd1b-85f9-4dc2-b5f4-c7e989738631",
+    "62e14d3a-cfb2-42b6-9cb8-2ea7f5e8d1a9"
+  ]
+}</code></pre>
+
+            <h4>Example Response</h4>
+            <pre><code>{
+  "downloads": [
+    {
+      "sample_id": "9a72bd1b-85f9-4dc2-b5f4-c7e989738631",
+      "filename": "invoice.pdf",
+      "download_url": "https://example.com/downloads/9a72bd1b-85f9-4dc2-b5f4-c7e989738631?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+      "expires": "2025-05-20T18:30:00Z"
+    },
+    {
+      "sample_id": "62e14d3a-cfb2-42b6-9cb8-2ea7f5e8d1a9",
+      "filename": "setup.exe",
+      "download_url": "https://example.com/downloads/62e14d3a-cfb2-42b6-9cb8-2ea7f5e8d1a9?token=kJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+      "expires": "2025-05-20T18:30:00Z"
+    }
+  ]
+}</code></pre>
+          </section>
+        </section>
+
+        <section id="code-examples">
+          <h2>Code Examples</h2>
+
+          <div class="example-tabs">
+            <button class="example-tab active" data-target="curl">cURL</button>
+            <button class="example-tab" data-target="python">Python</button>
+          </div>
+
+          <div class="example-content active" id="curl">
+            <h4>List all samples</h4>
+            <pre><code>curl -X GET "https://example.com/api/v1/download_samples/" \
+  -u z1000_user:z1000_password_example_123</code></pre>
+
+            <h4>List samples filtered by date</h4>
+            <pre><code>curl -X GET "https://example.com/api/v1/download_samples/?date=2025-05-15" \
+  -u z1000_user:z1000_password_example_123</code></pre>
+
+            <h4>Generate download links</h4>
+            <pre><code>curl -X POST "https://example.com/api/v1/download_samples/" \
+  -u z1000_user:z1000_password_example_123 \
+  -H "Content-Type: application/json" \
+  -d '{"sample_ids": ["9a72bd1b-85f9-4dc2-b5f4-c7e989738631", "62e14d3a-cfb2-42b6-9cb8-2ea7f5e8d1a9"]}'</code></pre>
+          </div>
+
+          <div class="example-content" id="python">
+            <pre><code class="language-python">import requests
+import requests
+from requests.auth import HTTPBasicAuth
+
+# Base configuration
+base_url = "https://example.com/api/v1/download_samples/"
+auth = HTTPBasicAuth("z1000_user", "z1000_password_example_123")
+
+# Example 1: List all samples
+try:
+    response = requests.get(base_url, auth=auth)
+    response.raise_for_status()
+    print(response.json())
+except requests.exceptions.RequestException as err:
+    print("Error listing all samples:", err)
+
+# Example 2: Filter by date and user, combine date and user_id params
+params = {
+    "date": "2025-05-15",
+    "user_id": "user_12345"
+}
+try:
+    response = requests.get(base_url, auth=auth, params=params)
+    response.raise_for_status()
+    print(response.json())
+except requests.exceptions.RequestException as err:
+    print("Error filtering samples:", err)
+
+# Example 3: Generate download links for specific samples
+sample_ids = ["9a72bd1b-85f9-4dc2-b5f4-c7e989738631", "62e14d3a-cfb2-42b6-9cb8-2ea7f5e8d1a9"]
+try:
+    response = requests.post(
+        base_url,
+        auth=auth,
+        json={"sample_ids": sample_ids}
+    )
+    response.raise_for_status()
+    downloads = response.json()["downloads"]
+    print("Download links:", downloads)
+except requests.exceptions.RequestException as err:
+    print("Error generating download links:", err)
+</code></pre>
+          </div>
+        </section>
+
+        <section id="error-handling">
+          <h2>Error Handling</h2>
+          <p>Common HTTP status codes:</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Status Code</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="status-code status-200">200 OK</span></td>
+                <td>Request successful</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="status-code status-400">400 Bad Request</span>
+                </td>
+                <td>Invalid request parameters</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="status-code status-401">401 Unauthorized</span>
+                </td>
+                <td>Authentication failed</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="status-code status-403">403 Forbidden</span>
+                </td>
+                <td>
+                  User doesn't have permission to access requested samples
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="status-code status-404">404 Not Found</span>
+                </td>
+                <td>Sample not found</td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="status-code status-429"
+                    >429 Too Many Requests</span
+                  >
+                </td>
+                <td>Rate limit exceeded</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+
+    <script src="scripts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+  </body>
+</html>
